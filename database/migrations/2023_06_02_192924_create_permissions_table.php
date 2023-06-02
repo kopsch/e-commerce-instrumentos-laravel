@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreatePermissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,17 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('permissions', function (Blueprint $table) {
             $table->charset   = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
 
             $table->char('id', 36);
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password', 200);
-            $table->char('profile_id', 36);
-            $table->timestamps();
-            $table->softDeletes();
+            $table->string('name', 200);
+            $table->string('type', 50);
+            $table->char('permission_category_id', 36);
 
             $table->primary('id');
-            $table->foreign('profile_id')->references('id')->on('profiles');
+            $table->foreign('permission_category_id')->references('id')->on('permission_categories');
         });
     }
 
@@ -37,6 +34,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('permissions');
     }
 }
